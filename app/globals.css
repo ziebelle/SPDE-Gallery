@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start: 240, 245, 255;
+    --background-end: 230, 235, 250;
+    --grid-color: 180, 190, 210;
+    --accent-color: 100, 130, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start: 15, 23, 42;
+        --background-end: 30, 41, 59;
+        --grid-color: 71, 85, 105;
+        --accent-color: 59, 130, 246;
+    }
+}
+
+body {
+    color: rgb(var(--foreground-rgb));
+    background:
+        linear-gradient(45deg,
+            rgba(var(--accent-color), 0.05) 0%,
+            transparent 75%),
+        linear-gradient(to bottom right,
+            rgba(var(--grid-color), 0.2) 1px,
+            transparent 1px),
+        linear-gradient(to bottom,
+            rgba(var(--grid-color), 0.2) 1px,
+            transparent 1px),
+        linear-gradient(125deg,
+            rgb(var(--background-start)),
+            rgb(var(--background-end)));
+    background-size: 100% 100%, 30px 30px, 30px 30px, 100% 100%;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+/* Gallery styles */
+.gallery-card {
+    @apply rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl backdrop-blur-sm;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(var(--grid-color), 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+    .gallery-card {
+        background: rgba(30, 41, 59, 0.85);
+        border: 1px solid rgba(var(--grid-color), 0.2);
+    }
+}
+
+.gallery-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+@media (prefers-color-scheme: dark) {
+    .gallery-card:hover {
+        background: rgba(30, 41, 59, 0.95);
+    }
+}
+
+.gallery-img {
+    @apply w-full h-auto object-cover transition-transform duration-500 hover:scale-105;
+}
+
+/* Modal styles */
+.modal-content {
+    @apply text-sm leading-relaxed;
+    max-width: 100%;
+}
+
+.modal-title {
+    @apply text-xl font-bold mb-6;
+}
+
+/* LaTeX styles */
+.equation-container {
+    @apply my-6;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+    -webkit-overflow-scrolling: touch;
+    background: rgba(var(--grid-color), 0.1);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(var(--grid-color), 0.2);
+}
+
+.description-text {
+    @apply text-sm leading-relaxed;
+    text-align: justify;
+    line-height: 1.7;
+}
+
+.description-text p {
+    @apply mb-4;
+}
+
+/* KaTeX styles */
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 1rem;
+    margin: 0 !important;
+    width: max-content;
+    min-width: 100%;
+}
+
+.katex {
+    font-size: 1.1em !important;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.katex-display>.katex {
+    font-size: 1.21em !important;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .katex {
+        color: rgb(var(--foreground-rgb));
+    }
+}
