@@ -2,56 +2,71 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
 
-// Image data with descriptions
-const galleryImages = [
-    {
-        id: 1,
-        src: '/SPDE-Gallery/figures/sascha.png',
-        title: 'Stochastic wave equation with spatially dependent speed',
-        equation: '\\partial_{tt}^{2}{u}(t,x)=\\partial_x(\\vartheta\\partial_x)u(t,x) + \\dot{W}(t,x), \\quad t, x \\in [0,1].',
-        description: 'The estimation of the wave speed $\\vartheta$ using local measurements is intrinsically related to the energetic behaviour of the wave equation and involves the theory of Riemann-Lebesgue operators. Heatmap with $\\vartheta(z)= \\vartheta_0 \\mathbf{1}_{[0,0.5]}(z)+ \\vartheta_1 \\mathbf{1}_{(0.5,1]}(z),z \\in [0,1].$'
-    },
-    {
-        id: 2,
-        src: '/SPDE-Gallery/figures/anton.png',
-        title: 'Stochastic Allen-Cahn equation with time-varying diffusivity',
-        equation: '\\partial_t{X}(t, x) = \\nu(t) \\Delta X(t, x) + \\vartheta(X(t, x))+ \\sigma \\dot{W}(t, x), \\quad t \\in [0,5], x \\in [0,1].',
-        description: 'The estimation of the reaction function $\\vartheta$ uses the asymptotic spatial ergodicity of the system as the diffusivity tends to zero and requires Malliavin calculus. Heatmap with $\\vartheta(z) = -4(z^3-16z)$ for $z\\in\\mathbb{R}$, $\\sigma = 1$ and $\\nu(t) = 10^{(-0.6t-2)}$.'
-    },
-    {
-        id: 3,
-        src: '/SPDE-Gallery/figures/gregor.png',
-        title: 'Activator component of a stochastic FitzHugh-Nagumo system with mass stabilisation',
-        equation: '\\begin{aligned} & \\partial_t U(t,x)=D_U \\Delta U(t,x)+k_1 U(t,x)\\left(u_0-U(t,x)\\right)\\left(U(t,x)-u_0 a[U(t,\\cdot)]\\right)-k_2 V(t,x)+\\dot{W}(t, x) \\\\ & \\partial_t V(t,x)=D_V \\Delta V(t,x)+\\varepsilon(b U(t,x)-V(t,x)), \\quad t,x \\in [0,1]. \\end{aligned}',
-        description: 'The estimation of the activator diffusivity turns out to be asymptotically robust under misspecification in the reaction model in the generating equations. This can even encompass the presence or absence of different dynamical features in the observed trajectory.'
-    },
-    {
-        id: 4,
-        src: '/SPDE-Gallery/figures/josef.png',
-        title: 'Stochastic heat equation with multiplicative noise',
-        equation: '\\partial_t X(t,x) =\\vartheta \\Delta X(t,x) +\\sigma(X(t,x)) \\dot{W}(t,x), \\quad t,x \\in [0,1].',
-        description: 'Under multiplicative noise, the standard local estimator of $\\vartheta$ is asymptotically mixed normal as the resolution becomes finer. This is based on Brownian martingale representation in Hilbert spaces and stable convergence. Weighting by quadratic variation improves the estimator and enjoys asymptotic normality. Heatmap with $\\vartheta = 0.20$, $\\sigma(z) = 0.20 \\times |z|^{0.8} + 0.01$.'
-    },
-    {
-        id: 5,
-        src: '/SPDE-Gallery/figures/pavel.png',
-        title: 'Stochastic Allen-Cahn equation with noise and space-dependent Hurst parameter',
-        equation: '\\left(\\partial_t  - \\nu \\Delta\\right) X(t,x) - \\vartheta(X(t,x)) = \\sigma \\dot{W}^{H(x)}(t,x), \\quad t,x \\in [0,1].',
-        description: 'Estimation of the Hurst parameter $H$ in parabolic SPDEs can be based on exploiting the local effect of parabolic spatio-temporal scaling on the probabilistic distribution of the space-time noise via its self-similarity. Heatmap with $H(x) = x$ and $\\vartheta(z)=40 z (1-z)(z-1/2)$.'
-    },
-    {
-        id: 6,
-        src: '/SPDE-Gallery/figures/eric.png',
-        title: 'Stochastic convection-diffusion equation with spatial transport',
-        equation: '\\partial_tX(t, x)=(a\\Delta+ \\vartheta\\cdot\\nabla + c)X(t,x)dt +\\dot{W}(t, x), \\quad t,x \\in [0,1].',
-        description: 'To estimate the spatially varying transport coefficient of a stochastic convection-diffusion equation, the contribution of different local measurements must be weighted and controlled by a bandwidth to account for bias reduction. Heatmap with $a=0.02$, $c=0.3$ and $\\vartheta(z)=-0.5-3z^2$ for $z \\in [0,1]$.'
-    }
-];
+// Helper function to handle paths
+const useImagePath = () => {
+    const isProduction = process.env.NODE_ENV === 'production';
+    return (path: string) => isProduction ? `/SPDE-Gallery${path}` : path;
+};
 
-export default function Home() {
+// Image data with descriptions
+const GalleryContent = () => {
+    const getImagePath = useImagePath();
+
+    const galleryImages = [
+        {
+            id: 1,
+            src: getImagePath('/figures/sascha.png'),
+            title: 'Stochastic wave equation with spatially dependent speed',
+            equation: '\\partial_{tt}^{2}{u}(t,x)=\\partial_x(\\vartheta\\partial_x)u(t,x) + \\dot{W}(t,x), \\quad t, x \\in [0,1].',
+            description: 'The estimation of the wave speed $\\vartheta$ using local measurements is intrinsically related to the energetic behaviour of the wave equation and involves the theory of Riemann-Lebesgue operators. Heatmap with $\\vartheta(z)= \\vartheta_0 \\mathbf{1}_{[0,0.5]}(z)+ \\vartheta_1 \\mathbf{1}_{(0.5,1]}(z),z \\in [0,1].$',
+            paperLink: 'https://arxiv.org/abs/2307.05457'
+        },
+        {
+            id: 2,
+            src: getImagePath('/figures/anton.png'),
+            title: 'Stochastic Allen-Cahn equation with time-varying diffusivity',
+            equation: '\\partial_t{X}(t, x) = \\nu(t) \\Delta X(t, x) + \\vartheta(X(t, x))+ \\sigma \\dot{W}(t, x), \\quad t \\in [0,5], x \\in [0,1].',
+            description: 'The estimation of the reaction function $\\vartheta$ uses the asymptotic spatial ergodicity of the system as the diffusivity tends to zero and requires Malliavin calculus. Heatmap with $\\vartheta(z) = -4(z^3-16z)$ for $z\\in\\mathbb{R}$, $\\sigma = 1$ and $\\nu(t) = 10^{(-0.6t-2)}$.',
+            paperLink: 'https://arxiv.org/pdf/2402.08353.pdf'
+        },
+        {
+            id: 3,
+            src: getImagePath('/figures/gregor.png'),
+            title: 'Activator component of a stochastic FitzHugh-Nagumo system with mass stabilisation',
+            equation: '\\begin{aligned} & \\partial_t U(t,x)=D_U \\Delta U(t,x)+k_1 U(t,x)\\left(u_0-U(t,x)\\right)\\left(U(t,x)-u_0 a[U(t,\\cdot)]\\right)-k_2 V(t,x)+\\dot{W}(t, x) \\\\ & \\partial_t V(t,x)=D_V \\Delta V(t,x)+\\varepsilon(b U(t,x)-V(t,x)), \\quad t,x \\in [0,1]. \\end{aligned}',
+            description: 'The estimation of the activator diffusivity turns out to be asymptotically robust under misspecification in the reaction model in the generating equations. This can even encompass the presence or absence of different dynamical features in the observed trajectory.',
+            paperLink: 'https://link.springer.com/article/10.1007/s00332-021-09714-4'
+        },
+        {
+            id: 4,
+            src: getImagePath('/figures/josef.png'),
+            title: 'Stochastic heat equation with multiplicative noise',
+            equation: '\\partial_t X(t,x) =\\vartheta \\Delta X(t,x) +\\sigma(X(t,x)) \\dot{W}(t,x), \\quad t,x \\in [0,1].',
+            description: 'Under multiplicative noise, the standard local estimator of $\\vartheta$ is asymptotically mixed normal as the resolution becomes finer. This is based on Brownian martingale representation in Hilbert spaces and stable convergence. Weighting by quadratic variation improves the estimator and enjoys asymptotic normality. Heatmap with $\\vartheta = 0.20$, $\\sigma(z) = 0.20 \\times |z|^{0.8} + 0.01$.',
+            paperLink: 'https://www.sciencedirect.com/science/article/pii/S0304414924000917'
+        },
+        {
+            id: 5,
+            src: getImagePath('/figures/pavel.png'),
+            title: 'Stochastic Allen-Cahn equation with noise and space-dependent Hurst parameter',
+            equation: '\\left(\\partial_t  - \\nu \\Delta\\right) X(t,x) - \\vartheta(X(t,x)) = \\sigma \\dot{W}^{H(x)}(t,x), \\quad t,x \\in [0,1].',
+            description: 'Estimation of the Hurst parameter $H$ in parabolic SPDEs can be based on exploiting the local effect of parabolic spatio-temporal scaling on the probabilistic distribution of the space-time noise via its self-similarity. Heatmap with $H(x) = x$ and $\\vartheta(z)=40 z (1-z)(z-1/2)$.',
+            paperLink: ''
+        },
+        {
+            id: 6,
+            src: getImagePath('/figures/eric.png'),
+            title: 'Stochastic convection-diffusion equation with spatial transport',
+            equation: '\\partial_tX(t, x)=(a\\Delta+ \\vartheta\\cdot\\nabla + c)X(t,x)dt +\\dot{W}(t, x), \\quad t,x \\in [0,1].',
+            description: 'To estimate the spatially varying transport coefficient of a stochastic convection-diffusion equation, the contribution of different local measurements must be weighted and controlled by a bandwidth to account for bias reduction. Heatmap with $a=0.02$, $c=0.3$ and $\\vartheta(z)=-0.5-3z^2$ for $z \\in [0,1]$.',
+            paperLink: 'https://arxiv.org/abs/2404.18823'
+        }
+    ];
+
     const [selectedImage, setSelectedImage] = useState<typeof galleryImages[0] | null>(null);
 
     // Helper function to wrap equation in display mode
@@ -147,6 +162,16 @@ export default function Home() {
                                         <DisplayEquation equation={selectedImage.equation} />
                                     </div>
                                     <Description text={selectedImage.description} />
+                                    {selectedImage.paperLink && (
+                                        <a
+                                            href={selectedImage.paperLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="paper-link"
+                                        >
+                                            View Paper
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -155,4 +180,8 @@ export default function Home() {
             )}
         </div>
     );
+}
+
+export default function Home() {
+    return <GalleryContent />;
 } 

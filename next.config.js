@@ -5,8 +5,8 @@ const nextConfig = {
         unoptimized: true, // For easy deployment without image optimization service
     },
     reactStrictMode: true,
-    basePath: '/SPDE-Gallery',
-    assetPrefix: '/SPDE-Gallery/',
+    basePath: process.env.NODE_ENV === 'production' ? '/SPDE-Gallery' : '',
+    assetPrefix: process.env.NODE_ENV === 'production' ? '/SPDE-Gallery/' : '',
 }
 
 module.exports = nextConfig 
