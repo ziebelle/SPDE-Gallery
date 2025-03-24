@@ -19,7 +19,7 @@ const GalleryContent = () => {
     const galleryImages = [
         {
             id: 1,
-            src: getImagePath('/figures/sascha.png'),
+            src: getImagePath('/figures/eric.png'),
             title: 'Stochastic wave equation with spatially dependent speed',
             equation: '\\partial_{tt}^{2}{u}(t,x)=\\partial_x(\\vartheta\\partial_x)u(t,x) + \\dot{W}(t,x), \\quad t, x \\in [0,1].',
             description: 'The estimation of the wave speed $\\vartheta$ using local measurements is intrinsically related to the energetic behaviour of the wave equation and involves the theory of Riemann-Lebesgue operators. Heatmap with $\\vartheta(z)= \\vartheta_0 \\mathbf{1}_{[0,0.5]}(z)+ \\vartheta_1 \\mathbf{1}_{(0.5,1]}(z),z \\in [0,1].$',
@@ -27,7 +27,7 @@ const GalleryContent = () => {
         },
         {
             id: 2,
-            src: getImagePath('/figures/anton.png'),
+            src: getImagePath('/figures/sascha.png'),
             title: 'Stochastic Allen-Cahn equation with time-varying diffusivity',
             equation: '\\partial_t{X}(t, x) = \\nu(t) \\Delta X(t, x) + \\vartheta(X(t, x))+ \\sigma \\dot{W}(t, x), \\quad t \\in [0,5], x \\in [0,1].',
             description: 'The estimation of the reaction function $\\vartheta$ uses the asymptotic spatial ergodicity of the system as the diffusivity tends to zero and requires Malliavin calculus. Heatmap with $\\vartheta(z) = -4(z^3-16z)$ for $z\\in\\mathbb{R}$, $\\sigma = 1$ and $\\nu(t) = 10^{(-0.6t-2)}$.',
@@ -59,7 +59,7 @@ const GalleryContent = () => {
         },
         {
             id: 6,
-            src: getImagePath('/figures/eric.png'),
+            src: getImagePath('/figures/anton.png'),
             title: 'Stochastic convection-diffusion equation with spatial transport',
             equation: '\\partial_tX(t, x)=(a\\Delta+ \\vartheta\\cdot\\nabla + c)X(t,x)dt +\\dot{W}(t, x), \\quad t,x \\in [0,1].',
             description: 'To estimate the spatially varying transport coefficient of a stochastic convection-diffusion equation, the contribution of different local measurements must be weighted and controlled by a bandwidth to account for bias reduction. Heatmap with $a=0.02$, $c=0.3$ and $\\vartheta(z)=-0.5-3z^2$ for $z \\in [0,1]$.',
